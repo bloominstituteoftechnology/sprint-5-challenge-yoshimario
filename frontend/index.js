@@ -5,6 +5,10 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
   const currentYear = new Date().getFullYear()
   footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`
 
+
+  const learnersResponse = await fetch('http://localhost:3003/api/learners');
+  const learnersData = await learnersResponse.json();
+  console.log(learnersData)
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
