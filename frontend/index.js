@@ -13,17 +13,20 @@ async function sprintChallenge5() {
   const mentorsResponse = await fetch("http://localhost:3003/api/mentors");
   const mentorsData = await mentorsResponse.json();
 
-  // Get the cards container and initialize info text
-  const cardsContainer = document.querySelector('.cards');
-  const infoParagraph = document.querySelector('.info');
-  infoParagraph.textContent = 'No learner selected';
+  const cardsContainer = document.querySelector(".cards");
 
-    // Build learner cards
-    learnersData.forEach((learner) => {
-      const learnerCard = buildLearnerCard(learner, mentorsData);
-      cardsContainer.appendChild(learnerCard);
-    });
-  }
+  const cardInfo = document.querySelector(".info");
+  cardInfo.textContent = "No learner selected";
+
+  learnersData.forEach(learner => {
+    const learnerCard = buildLearnerCard(learner, mentorsData);
+    cardsContainer.appendChild(learnerCard);
+  });
+}
+function buildLearnerCard(learner, mentorsData){
+
+
+
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
