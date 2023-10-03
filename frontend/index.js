@@ -50,10 +50,8 @@ function buildLearnerCard(learner, mentorsData) {
   [
     learnerNameH3,
     emailDiv,
-    idElement,
     mentorNameH4,
     mentorListUl,
-    learnerInfoH2,
   ].forEach((element) => {
     card.appendChild(element);
   });
