@@ -9,23 +9,30 @@ async function sprintChallenge5() {
   // Fetch learner and mentor data from the API
   const learnersResponse = await fetch("http://localhost:3003/api/learners");
   const learnersData = await learnersResponse.json();
-
   const mentorsResponse = await fetch("http://localhost:3003/api/mentors");
   const mentorsData = await mentorsResponse.json();
-
   const cardsContainer = document.querySelector(".cards");
-
   const cardInfo = document.querySelector(".info");
   cardInfo.textContent = "No learner selected";
 
-  learnersData.forEach(learner => {
+  learnersData.forEach((learner) => {
     const learnerCard = buildLearnerCard(learner, mentorsData);
     cardsContainer.appendChild(learnerCard);
   });
 }
-function buildLearnerCard(learner, mentorsData){
+function buildLearnerCard(learner, mentorsData) {
+  const cards = document.createElement("div");
+  cards.classList.add("cards");
 
+  const learnerNameH3 = document.createElement("h3");
+  learnerNameH3.textContent = learner.fullName;
 
+  const emailDiv = document.createElement;
+  emailDiv.textContent = learner.email;
+
+  const idElement = document.createElement("div");
+  idElement.textContent = `ID: ${learner.id}`;
+  idElement.classList.add("info");
 
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
