@@ -27,12 +27,23 @@ function buildLearnerCard(learner, mentorsData) {
   const learnerNameH3 = document.createElement("h3");
   learnerNameH3.textContent = learner.fullName;
 
-  const emailDiv = document.createElement;
+  const emailDiv = document.createElement("div");
   emailDiv.textContent = learner.email;
 
   const idElement = document.createElement("div");
   idElement.textContent = `ID: ${learner.id}`;
   idElement.classList.add("info");
+
+  const mentorNameH4 = document.createElement("h4");
+  mentorNameH4.textContent = "Mentors";
+  mentorNameH4.classList.add("closed");
+
+  const mentorListUl = document.createElement("ul");
+  learner.mentorsArray.forEach((mentorName) => {
+    const mentorItemList = document.createElement("li");
+    mentorItemList.textContent = mentorName;
+    mentorListUl.appendChild(mentorItemList);
+  });
 
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
