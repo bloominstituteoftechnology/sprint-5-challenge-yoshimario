@@ -58,25 +58,25 @@ async function sprintChallenge5() {
     card.addEventListener("click", () => {
       // Toggle the "selected" class on the clicked card
       card.classList.toggle("selected");
-      
-   // Loop through all cards and deselect them, except for the clicked card
-   const allCards = document.querySelectorAll(".card");
-   allCards.forEach((otherCard) => {
-     if (otherCard !== card) {
-       otherCard.classList.remove("selected");
-     }
-   });
 
-   if (card.classList.contains("selected")) {
-     // If the card is selected, update cardInfo
-     cardInfo.textContent = `The selected learner is ${learner.fullName}, ID: ${learner.id}`;
-     learnerNameH3.textContent = `${learner.fullName}, ID: ${learner.id}`; // Update name with ID
-   } else {
-     // If the card is deselected, update cardInfo to the default text
-     cardInfo.textContent = "No learner is selected";
-     learnerNameH3.textContent = learner.fullName; // Restore the original name
-   }
- });
+      // Loop through all cards and deselect them, except for the clicked card
+      const allCards = document.querySelectorAll(".card");
+      allCards.forEach((otherCard) => {
+        if (otherCard !== card) {
+          otherCard.classList.remove("selected");
+        }
+      });
+
+      if (card.classList.contains("selected")) {
+        // If the card is selected, update cardInfo
+        cardInfo.textContent = `The selected learner is ${learner.fullName}, ID: ${learner.id}`;
+        learnerNameH3.textContent = `${learner.fullName}, ID: ${learner.id}`; // Update name with ID
+      } else {
+        // If the card is deselected, update cardInfo to the default text
+        cardInfo.textContent = "No learner is selected";
+        learnerNameH3.textContent = learner.fullName; // Restore the original name
+      }
+    });
     return card;
   }
 
