@@ -58,6 +58,12 @@ function buildLearnerCard(learner, mentorsData) {
   ].forEach((element) => {
     cards.appendChild(element);
   });
+
+  mentorNameH4.addEventListener("click", () => {
+    mentorNameH4.classList.toggle("closed");
+    mentorNameH4.classList.toggle("open");
+    mentorListUl.style.display = mentorNameH4.classList.contains("open")? 'block' : 'none';
+  });
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
