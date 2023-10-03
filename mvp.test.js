@@ -57,7 +57,7 @@ describe('Sprint Challenge 5', () => {
   describe('Successful Axios requests and DOM manipulation', () => {
     test('👉 [7] <p class="info"> text is "No learner is selected" after rendering cards', async () => {
       await firstCardRender()
-      expect(screen.getByText(/No learner is selected/)).toBeInTheDocument()
+      screen.getByText('No learner is selected')
     })
     test('👉 [8] <div class="cards"> container holds 16 cards', async () => {
       await firstCardRender()
