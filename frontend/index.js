@@ -11,19 +11,20 @@ async function sprintChallenge5() {
   const learnersData = await learnersResponse.json();
   const mentorsResponse = await fetch("http://localhost:3003/api/mentors");
   const mentorsData = await mentorsResponse.json();
-  const cardsContainer = document.querySelector(".cards");
+
+  const cards = document.querySelector(".cards");
   const cardInfo = document.querySelector(".info");
-  cardInfo.textContent = "No learner selected";
+  cardInfo.textContent = "No learner is selected";
 
   learnersData.forEach((learner) => {
-    const learnerCard = buildLearnerCard(learner, mentorsData, cardInfo);
-    cardsContainer.appendChild(learnerCard);
+    const learnerCard = buildLearnerCard(learner, mentorsData);
+    cards.appendChild(learnerCard);
   });
 }
 
-function buildLearnerCard(learner, mentorsData, cardInfo) {
+function buildLearnerCard(learner, mentorsData) {
   const card = document.createElement("div");
-  card.classList.add("cards");
+  card.classList.add("card");
 
   const learnerNameH3 = document.createElement("h3");
   learnerNameH3.textContent = learner.fullName;
@@ -31,24 +32,16 @@ function buildLearnerCard(learner, mentorsData, cardInfo) {
   const emailDiv = document.createElement("div");
   emailDiv.textContent = learner.email;
 
-  const idElement = document.createElement("div");
-  idElement.textContent = `ID: ${learner.id}`;
-  idElement.classList.add("info");
-
   const mentorNameH4 = document.createElement("h4");
   mentorNameH4.textContent = "Mentors";
   mentorNameH4.classList.add("closed");
-
-  const learnerInfoH2 = document.createElement("h2");
-  learnerInfoH2.textContent = "Learner Info";
-  learnerInfoH2.classList.add("info");
 
   const mentorListUl = document.createElement("ul");
   learner.mentors.forEach((mentorName) => {
     mentorsData.forEach((mentor) => {
       if (mentorName === mentor.id) {
         const mentorItemList = document.createElement("li");
-        mentorItemList.textContent = mentor.firstName + ' ' + mentor.lastName;
+        mentorItemList.textContent = mentor.firstName + " " + mentor.lastName;
         mentorListUl.appendChild(mentorItemList);
       }
     });
@@ -73,16 +66,18 @@ function buildLearnerCard(learner, mentorsData, cardInfo) {
       : "none";
   });
 
-  card.addEventListener("click", () => {
-    if (!card.classList.contains("selected")) {
+  cards.addEventListener("click", () => {
+    if (!cards.classList.contains("selected")) {
       document.querySelectorAll(".cards").forEach((otherCard) => {
-        otherCard.classList.remove("selected");
+        cards.classList.remove("selected");
       });
-      card.classList.add("selected");
+      cardInfo.classList.add("selected");
       cardInfo.textContent = `The selected learner is ${learner.fullName}`;
-      card.querySelector("h3").textContent = `${learner.fullName}, ID: ${learner.id}`;
+      cardInfo.querySelector(
+        "h3"
+      ).textContent = `${learner.fullName}, ID: ${learner.id}`;
     } else {
-      card.classList.remove("selected");
+      cardInfo.classList.remove("selected");
       cardInfo.textContent = "No learner is selected";
     }
   });
