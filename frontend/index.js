@@ -16,77 +16,69 @@ async function sprintChallenge5() {
   const cardInfo = document.querySelector(".info");
   cardInfo.textContent = "No learner is selected";
 
-  learnersData.forEach((learner) => {
+  learnersData.forEach(learner => {
     const learnerCard = buildLearnerCard(learner, mentorsData);
     cards.appendChild(learnerCard);
   });
 
-  function buildLearnerCard(learner, mentorsData) {
-    const card = document.createElement("div");
-    card.classList.add("card");
+function buildLearnerCard(learner, mentorsData) { 
+  const card = document.createElement("div");
+  card.classList.add("card");
 
-    const learnerNameH3 = document.createElement("h3");
-    learnerNameH3.textContent = learner.fullName;
+  const learnerNameH3 = document.createElement("h3");
+  learnerNameH3.textContent = learner.fullName;
 
-    const emailDiv = document.createElement("div");
-    emailDiv.textContent = learner.email;
+  const emailDiv = document.createElement("div");
+  emailDiv.textContent = learner.email;
 
-    const mentorNameH4 = document.createElement("h4");
-    mentorNameH4.textContent = "Mentors";
-    mentorNameH4.classList.add("closed");
+  const mentorNameH4 = document.createElement("h4");
+  mentorNameH4.textContent = "Mentors";
+  mentorNameH4.classList.add("closed");
 
-    const mentorListUl = document.createElement("ul");
-    learner.mentors.forEach((mentorName) => {
-      mentorsData.forEach((mentor) => {
-        if (mentorName === mentor.id) {
-          const mentorItemList = document.createElement("li");
-          mentorItemList.textContent = mentor.firstName + " " + mentor.lastName;
-          mentorListUl.appendChild(mentorItemList);
-        }
-      });
-    });
-
-    [learnerNameH3, emailDiv, mentorNameH4, mentorListUl].forEach((element) => {
-      card.appendChild(element);
-    });
-
-    mentorNameH4.addEventListener("click", () => {
-      mentorNameH4.classList.toggle("open");
-      mentorNameH4.classList.toggle("closed");
-    });
-
-    card.addEventListener("click", () => {
-      // Toggle the "selected" class on the clicked card
-      card.classList.toggle("selected");
-
-      // Loop through all cards and deselect them, except for the clicked card
-      const allCards = document.querySelectorAll(".card");
-      allCards.forEach((otherCard) => {
-        if (otherCard !== card) {
-          otherCard.classList.remove("selected");
-        }
-      });
-
-      if (card.classList.contains("selected")) {
-        // If the card is selected, update cardInfo
-        cardInfo.textContent = `The selected learner is ${learner.fullName}, ID: ${learner.id}`;
-        learnerNameH3.textContent = `${learner.fullName}, ID: ${learner.id}`; // Update name with ID
-      } else {
-        // If the card is deselected, update cardInfo to the default text
-        cardInfo.textContent = "No learner is selected";
-        learnerNameH3.textContent = learner.fullName; // Restore the original name
+  const mentorListUl = document.createElement("ul");
+  learner.mentors.forEach(mentorName => {
+    mentorsData.forEach(mentor => {
+      if (mentorName === mentor.id) {
+        const mentorItemList = document.createElement("li");
+        mentorItemList.textContent = mentor.firstName + " " + mentor.lastName;
+        mentorListUl.appendChild(mentorItemList);
       }
-    });
-    return card;
-  }
+    })
+  });
 
-  // 👆 WORK WORK ABOVE THIS LINE 👆
+  [learnerNameH3, emailDiv, mentorNameH4, mentorListUl].forEach(element => {
+    card.appendChild(element);
+  });
+
+  mentorNameH4.addEventListener("click", () => {
+    mentorNameH4.classList.toggle("open");
+    mentorNameH4.classList.toggle("closed");
+  
+  });
+
+  card.addEventListener("click", () => {
+    if (!cards.classList.contains("selected")) {
+      document.querySelectorAll(".card").forEach(cards => {
+        cards.classList.remove("selected");
+      });
+      card.classList.add("selected");
+      cardInfo.textContent = `The selected learner is ${learner.fullName}`;
+      card.querySelector(
+        "h3"
+      ).textContent = `${learner.fullName}, ID: ${learner.id}`;
+    } else {
+      cards.classList.remove("selected");
+      cardInfo.textContent = "No learner is selected";
+      cards.querySelectorAll("h4").textContent = learner.fullName;
+    }
+  });
+
+  return card;
 }
 
-// Export the sprintChallenge5 function for testing
+// 👆 WORK WORK ABOVE THIS LINE 👆
+}
+// ❗ DO NOT CHANGE THE CODE BELOW
 if (typeof module !== "undefined" && module.exports)
   module.exports = { sprintChallenge5 };
-else {
-  // Wait for the DOMContentLoaded event before running the code
-  document.addEventListener("DOMContentLoaded", sprintChallenge5);
-}
+else sprintChallenge5();
