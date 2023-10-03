@@ -22,8 +22,8 @@ async function sprintChallenge5() {
 }
 
 function buildLearnerCard(learner, mentorsData, cardInfo) {
-  const card = document.createElement("div"); // Changed 'cards' to 'card'
-  card.classList.add("cards"); // Changed 'cards' to 'card'
+  const card = document.createElement("div");
+  card.classList.add("cards");
 
   const learnerNameH3 = document.createElement("h3");
   learnerNameH3.textContent = learner.fullName;
@@ -45,9 +45,13 @@ function buildLearnerCard(learner, mentorsData, cardInfo) {
 
   const mentorListUl = document.createElement("ul");
   learner.mentors.forEach((mentorName) => {
-    const mentorItemList = document.createElement("li");
-    mentorItemList.textContent = mentorName;
-    mentorListUl.appendChild(mentorItemList);
+    mentorsData.forEach((mentor) => {
+      if (mentorName === mentor.id) {
+        const mentorItemList = document.createElement("li");
+        mentorItemList.textContent = mentor.firstName + ' ' + mentor.lastName;
+        mentorListUl.appendChild(mentorItemList);
+      }
+    });
   });
 
   [
@@ -58,7 +62,7 @@ function buildLearnerCard(learner, mentorsData, cardInfo) {
     mentorListUl,
     learnerInfoH2,
   ].forEach((element) => {
-    card.appendChild(element); // Changed 'cards' to 'card'
+    card.appendChild(element);
   });
 
   mentorNameH4.addEventListener("click", () => {
@@ -83,8 +87,9 @@ function buildLearnerCard(learner, mentorsData, cardInfo) {
     }
   });
 
-  return card; // Return the 'card' element
+  return card;
 }
+
 // 👆 WORK WORK ABOVE THIS LINE 👆
 
 // ❗ DO NOT CHANGE THE CODE BELOW
