@@ -52,7 +52,7 @@ function buildLearnerCard(learner, mentorsData) {
     emailDiv,
     mentorNameH4,
     mentorListUl,
-  ].forEach((element) => {
+  ].forEach(element => {
     card.appendChild(element);
   });
 
