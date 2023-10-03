@@ -21,63 +21,66 @@ async function sprintChallenge5() {
     cards.appendChild(learnerCard);
   });
 
-function buildLearnerCard(learner, mentorsData) { 
-  const card = document.createElement("div");
-  card.classList.add("card");
+  function buildLearnerCard(learner, mentorsData) {
+    const card = document.createElement("div");
+    card.classList.add("card");
 
-  const learnerNameH3 = document.createElement("h3");
-  learnerNameH3.textContent = learner.fullName;
+    const learnerNameH3 = document.createElement("h3");
+    learnerNameH3.textContent = learner.fullName;
 
-  const emailDiv = document.createElement("div");
-  emailDiv.textContent = learner.email;
+    const emailDiv = document.createElement("div");
+    emailDiv.textContent = learner.email;
 
-  const mentorNameH4 = document.createElement("h4");
-  mentorNameH4.textContent = "Mentors";
-  mentorNameH4.classList.add("closed");
+    const mentorNameH4 = document.createElement("h4");
+    mentorNameH4.textContent = "Mentors";
+    mentorNameH4.classList.add("closed");
 
-  const mentorListUl = document.createElement("ul");
-  learner.mentors.forEach(mentorName => {
-    mentorsData.forEach(mentor => {
-      if (mentorName === mentor.id) {
-        const mentorItemList = document.createElement("li");
-        mentorItemList.textContent = mentor.firstName + " " + mentor.lastName;
-        mentorListUl.appendChild(mentorItemList);
-      }
-    })
-  });
-
-  [learnerNameH3, emailDiv, mentorNameH4, mentorListUl].forEach(element => {
-    card.appendChild(element);
-  });
-
-  mentorNameH4.addEventListener("click", () => {
-    mentorNameH4.classList.toggle("open");
-    mentorNameH4.classList.toggle("closed");
-  
-  });
-
-  card.addEventListener("click", () => {
-    if (!cards.classList.contains("selected")) {
-      document.querySelectorAll(".card").forEach(cards => {
-        cards.classList.remove("selected");
+    const mentorListUl = document.createElement("ul");
+    learner.mentors.forEach(mentorName => {
+      mentorsData.forEach(mentor => {
+        if (mentorName === mentor.id) {
+          const mentorItemList = document.createElement("li");
+          mentorItemList.textContent = mentor.firstName + " " + mentor.lastName;
+          mentorListUl.appendChild(mentorItemList);
+        }
       });
-      card.classList.add("selected");
-      cardInfo.textContent = `The selected learner is ${learner.fullName}`;
-      card.querySelector(
-        "h3"
-      ).textContent = `${learner.fullName}, ID: ${learner.id}`;
-    } else {
-      cards.classList.remove("selected");
-      cardInfo.textContent = "No learner is selected";
-      cards.querySelectorAll("h4").textContent = learner.fullName;
-    }
-  });
+    });
 
-  return card;
+    [learnerNameH3, emailDiv, mentorNameH4, mentorListUl].forEach(element => {
+      card.appendChild(element);
+    });
+
+    mentorNameH4.addEventListener("click", () => {
+      mentorNameH4.classList.toggle("open");
+      mentorNameH4.classList.toggle("closed");
+    });
+
+    card.addEventListener("click", () => {
+      const isSelected = card.classList.contains("selected");
+
+      if (!isSelected) {
+        // Deselect any previously selected card
+        document.querySelectorAll(".card.selected").forEach(selectedCard => {
+          selectedCard.classList.remove("selected");
+        });
+        // Select the clicked card
+        card.classList.add("selected");
+        cardInfo.textContent = `The selected learner is ${learner.fullName}`;
+        learnerNameH3.textContent = `${learner.fullName}, ID: ${learner.id}`;
+      } else {
+        // Deselect the card
+        card.classList.remove("selected");
+        cardInfo.textContent = "No learner is selected";
+        learnerNameH3.textContent = learner.fullName;
+      }
+    });
+
+    return card;
+  }
+
+  // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
-// 👆 WORK WORK ABOVE THIS LINE 👆
-}
 // ❗ DO NOT CHANGE THE CODE BELOW
 if (typeof module !== "undefined" && module.exports)
   module.exports = { sprintChallenge5 };
