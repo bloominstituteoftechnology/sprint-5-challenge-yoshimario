@@ -16,13 +16,14 @@ async function sprintChallenge5() {
   cardInfo.textContent = "No learner selected";
 
   learnersData.forEach((learner) => {
-    const learnerCard = buildLearnerCard(learner, mentorsData);
+    const learnerCard = buildLearnerCard(learner, mentorsData, cardInfo);
     cardsContainer.appendChild(learnerCard);
   });
 }
-function buildLearnerCard(learner, mentorsData) {
-  const cards = document.createElement("div");
-  cards.classList.add("cards");
+
+function buildLearnerCard(learner, mentorsData, cardInfo) {
+  const card = document.createElement("div"); // Changed 'cards' to 'card'
+  card.classList.add("cards"); // Changed 'cards' to 'card'
 
   const learnerNameH3 = document.createElement("h3");
   learnerNameH3.textContent = learner.fullName;
@@ -43,11 +44,12 @@ function buildLearnerCard(learner, mentorsData) {
   learnerInfoH2.classList.add("info");
 
   const mentorListUl = document.createElement("ul");
-  learner.mentorsArray.forEach((mentorName) => {
+  learner.mentors.forEach((mentorName) => {
     const mentorItemList = document.createElement("li");
     mentorItemList.textContent = mentorName;
     mentorListUl.appendChild(mentorItemList);
   });
+
   [
     learnerNameH3,
     emailDiv,
@@ -56,34 +58,36 @@ function buildLearnerCard(learner, mentorsData) {
     mentorListUl,
     learnerInfoH2,
   ].forEach((element) => {
-    cards.appendChild(element);
+    card.appendChild(element); // Changed 'cards' to 'card'
   });
 
   mentorNameH4.addEventListener("click", () => {
     mentorNameH4.classList.toggle("closed");
     mentorNameH4.classList.toggle("open");
+    mentorListUl.style.display = mentorNameH4.classList.contains("open")
+      ? "block"
+      : "none";
   });
 
-  card.addEventListener("click", (evt) => {
-    if (!cards.classList.contains("selected")) {
-      document.querySelectorAll('.cards').forEach(cards => {
-        cards.classList.remove("selected");
+  card.addEventListener("click", () => {
+    if (!card.classList.contains("selected")) {
+      document.querySelectorAll(".cards").forEach((otherCard) => {
+        otherCard.classList.remove("selected");
       });
-      cards.classList.add("selected");
+      card.classList.add("selected");
       cardInfo.textContent = `The selected learner is ${learner.fullName}`;
-      cards.querySelector('h3').textContent = `${learner.fullName}, ID: ${learner.id}`;
-      else{
-        cards.classList.remove("selected");
-        cardInfo.textContent = "No learner is selected";
-        cards.querySelectorAll('h4').textContent = learner.fullName;
-      }
-    })
-  return card
-}
-  // 👆 WORK WORK ABOVE THIS LINE 👆
-}
+      card.querySelector("h3").textContent = `${learner.fullName}, ID: ${learner.id}`;
+    } else {
+      card.classList.remove("selected");
+      cardInfo.textContent = "No learner is selected";
+    }
+  });
 
-// ❗ DO NOT CHANGE THE CODE  BELOW
+  return card; // Return the 'card' element
+}
+// 👆 WORK WORK ABOVE THIS LINE 👆
+
+// ❗ DO NOT CHANGE THE CODE BELOW
 if (typeof module !== "undefined" && module.exports)
   module.exports = { sprintChallenge5 };
 else sprintChallenge5();
