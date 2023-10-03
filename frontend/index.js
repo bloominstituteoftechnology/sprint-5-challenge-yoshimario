@@ -62,8 +62,24 @@ function buildLearnerCard(learner, mentorsData) {
   mentorNameH4.addEventListener("click", () => {
     mentorNameH4.classList.toggle("closed");
     mentorNameH4.classList.toggle("open");
-    mentorListUl.style.display = mentorNameH4.classList.contains("open")? 'block' : 'none';
   });
+
+  card.addEventListener("click", (evt) => {
+    if (!cards.classList.contains("selected")) {
+      document.querySelectorAll('.cards').forEach(cards => {
+        cards.classList.remove("selected");
+      });
+      cards.classList.add("selected");
+      cardInfo.textContent = `The selected learner is ${learner.fullName}`;
+      cards.querySelector('h3').textContent = `${learner.fullName}, ID: ${learner.id}`;
+      else{
+        cards.classList.remove("selected");
+        cardInfo.textContent = "No learner is selected";
+        cards.querySelectorAll('h4').textContent = learner.fullName;
+      }
+    })
+  return card
+}
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
