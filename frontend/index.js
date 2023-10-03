@@ -17,12 +17,12 @@ async function sprintChallenge5() {
   cardInfo.textContent = "No learner is selected";
 
   learnersData.forEach((learner) => {
-    const learnerCard = buildLearnerCard(learner, mentorsData);
+    const learnerCard = buildLearnerCard(learner, mentorsData, cards, cardInfo); // Pass 'cards' and 'cardInfo' to buildLearnerCard
     cards.appendChild(learnerCard);
   });
 }
 
-function buildLearnerCard(learner, mentorsData) {
+function buildLearnerCard(learner, mentorsData, cards, cardInfo) { // Receive 'cards' and 'cardInfo' as parameters
   const card = document.createElement("div");
   card.classList.add("card");
 
@@ -47,12 +47,7 @@ function buildLearnerCard(learner, mentorsData) {
     });
   });
 
-  [
-    learnerNameH3,
-    emailDiv,
-    mentorNameH4,
-    mentorListUl,
-  ].forEach(element => {
+  [learnerNameH3, emailDiv, mentorNameH4, mentorListUl].forEach((element) => {
     card.appendChild(element);
   });
 
@@ -65,18 +60,19 @@ function buildLearnerCard(learner, mentorsData) {
   });
 
   cards.addEventListener("click", () => {
-    if (!cards.classList.contains("selected")) {
+    if (!card.classList.contains("selected")) {
       document.querySelectorAll(".cards").forEach((otherCard) => {
-        cards.classList.remove("selected");
+        otherCard.classList.remove("selected");
       });
-      cardInfo.classList.add("selected");
+      card.classList.add("selected");
       cardInfo.textContent = `The selected learner is ${learner.fullName}`;
-      cardInfo.querySelector(
+      card.querySelector(
         "h3"
       ).textContent = `${learner.fullName}, ID: ${learner.id}`;
     } else {
-      cardInfo.classList.remove("selected");
+      card.classList.remove("selected");
       cardInfo.textContent = "No learner is selected";
+      card.querySelectorAll("h4").textContent = learner.fullName;
     }
   });
 
