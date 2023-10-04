@@ -6,15 +6,12 @@ async function sprintChallenge5() {
   const currentYear = new Date().getFullYear();
   footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`;
 
-  try {
-    // Fetch learner data
+    // Fetch learner and mentor data from the API
     const learnersResponse = await fetch("http://localhost:3003/api/learners");
     if (!learnersResponse.ok) {
       throw new Error("Failed to fetch learner data");
     }
     const learnersData = await learnersResponse.json();
-  
-    // Fetch mentor data
     const mentorsResponse = await fetch("http://localhost:3003/api/mentors");
     if (!mentorsResponse.ok) {
       throw new Error("Failed to fetch mentor data");
@@ -25,43 +22,40 @@ async function sprintChallenge5() {
     const selectedLearnerInfo = document.querySelector(".info");
     selectedLearnerInfo.textContent = "No learner is selected";
   
+    // Add a variable to track the selected card
+    let selectedCard = null;
+  
     learnersData.forEach((learner) => {
       const learnerCard = buildLearnerCard(learner, mentorsData);
       cards.appendChild(learnerCard);
   
-      learnerCard.addEventListener("click", () => {
+      learnerCard.addEventListener("click", async () => {
         const isSelected = learnerCard.classList.contains("selected");
-      
-        if (!isSelected) {
-          // Deselect all cards first
-          document.querySelectorAll(".card").forEach((card) => {
-            card.classList.remove("selected");
-            const learnerIdElement = card.querySelector("h3");
-            if (learnerIdElement) {
-              learnerIdElement.textContent = learner.fullName; // Remove the ID
-            }
-          });
-          // Select the clicked card
-          learnerCard.classList.add("selected");
-          const learnerIdElement = learnerCard.querySelector("h3");
-          if (learnerIdElement) {
-            learnerIdElement.textContent = `${learner.fullName}, ID: ${learner.id}`;
-          }
-          // Update selectedLearnerInfo with the selected learner's name
-          selectedLearnerInfo.textContent = `The selected learner is ${learner.fullName}`;
-        } else {
-          // Deselect the clicked card
-          learnerCard.classList.remove("selected");
-          const learnerIdElement = learnerCard.querySelector("h3");
+  
+        // Deselect all cards first
+        document.querySelectorAll(".card").forEach((card) => {
+          card.classList.remove("selected");
+          const learnerIdElement = card.querySelector("h3");
           if (learnerIdElement) {
             learnerIdElement.textContent = learner.fullName; // Remove the ID
           }
-          // Update selectedLearnerInfo when no learner is selected
-          selectedLearnerInfo.textContent = "No learner is selected";
+        });
+  
+        if (!isSelected) {
+          // Select the clicked card
+          learnerCard.classList.add("selected");
+          selectedCard = learnerCard; // Update the selected card
+        } else {
+          // Deselect the clicked card
+          learnerCard.classList.remove("selected");
+          selectedCard = null; // No card is selected
         }
+  
+        // Update selectedLearnerInfo with the selected learner's name
+        selectedLearnerInfo.textContent = selectedCard
+          ? `The selected learner is ${learner.fullName}`
+          : "No learner is selected";
       });
-      
-      
     });
   
     function buildLearnerCard(learner, mentorsData) {
@@ -71,6 +65,14 @@ async function sprintChallenge5() {
       const learnerNameH3 = document.createElement("h3");
       learnerNameH3.textContent = learner.fullName;
   
+      const learnerIdElement = document.createElement("span");
+      learnerIdElement.textContent = learner.id;
+    
+      if (selectedCard === card) {
+        learnerNameH3.appendChild(learnerIdElement);
+      }
+    
+
       const emailDiv = document.createElement("div");
       emailDiv.textContent = learner.email;
   
@@ -95,17 +97,17 @@ async function sprintChallenge5() {
           card.appendChild(element);
         }
       );
-  
       mentorNameH4.addEventListener("click", () => {
         mentorNameH4.classList.toggle("open");
         mentorNameH4.classList.toggle("closed");
+      
+        if (selectedCard === card) {
+          selectedCard = null;
+          card.classList.remove("selected");
+        }
       });
-  
       return card;
     }
-  } catch (error) {
-    console.error("An error occurred:", error);
-  }
   
 
   // 👆 WORK ABOVE THIS LINE 👆
